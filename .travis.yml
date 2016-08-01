@@ -38,7 +38,7 @@ script:
   - psql -d qiita_test -f install-plugin.sql
   - sleep 5 # give enough time to the webserver to start
   - nosetests --with-doctest --with-coverage
-  - flake8 qtp_biom setup.py scripts
+  - flake8 qtp_mass_spec setup.py scripts
 addons:
   postgresql: "9.3"
 services:
