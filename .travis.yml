@@ -12,21 +12,21 @@ before_install:
   # Update conda itself
   - conda update --yes conda
 install:
-  - travis_retry conda create --yes -n qiita_env python=2.7 pip nose flake8
+  - travis_retry conda create --yes -n qiita python=2.7 pip nose flake8
     pyzmq networkx pyparsing natsort mock future libgfortran
     'pandas>=0.18' 'scipy>0.13.0' 'numpy>=1.7' 'h5py>=2.3.1'
-  - source activate qiita_env
+  - source activate qiita
   - pip install sphinx sphinx-bootstrap-theme coveralls
   - pip install https://github.com/biocore/qiita/archive/master.zip --process-dependency-links
   - qiita-env make --no-load-ontologies
-  - export QIITA_SERVER_CERT=$HOME/miniconda3/envs/qiita_env/lib/python2.7/site-packages/qiita_core/support_files/server.crt
+  - export QIITA_SERVER_CERT=$HOME/miniconda3/envs/qiita/lib/python2.7/site-packages/qiita_core/support_files/server.crt
   - source deactivate
   - travis_retry conda create --yes -n env_name python=$PYTHON_VERSION pip nose flake8 coverage numpy pandas 'h5py>=2.3.1' matplotlib seaborn
   - source activate env_name
   - pip install https://github.com/qiita-spots/qiita_client/archive/master.zip
   - travis_retry pip install .
 before_script:
-  - source activate qiita_env
+  - source activate qiita
   - qiita pet webserver start &
 script:
   - source activate env_name
