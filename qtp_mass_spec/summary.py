@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# Copyright (c) 2016, Ming Wang.
+# Copyright (c) 2017, Qiita development team.
 #
 # Distributed under the terms of the BSD 3-clause License License.
 #

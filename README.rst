@@ -1,5 +1,5 @@
-mass-spec Qiita Type Plugin
-===========================
+Mass Spec Types Qiita Type Plugin
+=================================
 
 |Build Status| |Coverage Status|
 
@@ -7,13 +7,13 @@ mass-spec Qiita Type Plugin
 is an analysis environment for microbiome (and other "comparative -omics")
 datasets.
 
-This package includes the mass-spec Qiita type plugin.
+This package includes the Mass Spec Types Qiita type plugin.
 
 #TODO: Add a description of the artifact types described in this type plugin.
 
 How to test this package?
 -------------------------
-In order to test the mass-spec package, a local
+In order to test the Mass Spec Types package, a local
 installation of Qiita should be running in test mode on the address
 `https://localhost:21174`, with the default test database created in Qiita's
 test suite. Also, if Qiita is running with the default server SSL certificate,

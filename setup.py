@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # -----------------------------------------------------------------------------
-# Copyright (c) 2016, Ming Wang.
+# Copyright (c) 2017, Qiita development team.
 #
 # Distributed under the terms of the BSD 3-clause License License.
 #
@@ -30,13 +30,13 @@ with open('README.rst') as f:
 
 classifiers = [s.strip() for s in classes.split('\n') if s]
 
-setup(name='mass-spec Qiita Type Plugin',
+setup(name='Mass Spec Types Qiita Type Plugin',
       version=__version__,
       long_description=long_description,
       license="BSD",
-      description='Qiita Type Plugin: mass-spec',
-      author="Ming Wang",
-      author_email="miw023@ucsd.edu",
+      description='Qiita Type Plugin: Mass Spec Types',
+      author="Qiita development team",
+      author_email="qiita.help@gmail.com",
       url='https://github.com/qiita-spots/qtp-mass-spec',
       test_suite='nose.collector',
       packages=['qtp_mass_spec'],
