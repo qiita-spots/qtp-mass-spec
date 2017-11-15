@@ -1,12 +1,12 @@
 # -----------------------------------------------------------------------------
-# Copyright (c) 2016, Ming Wang.
+# Copyright (c) 2017, Qiita development team.
 #
 # Distributed under the terms of the BSD 3-clause License License.
 #
 # The full license is in the file LICENSE, distributed with this software.
 # -----------------------------------------------------------------------------
 
-from unittest import TestCase, main
+from unittest import main
 from tempfile import mkdtemp
 from os import remove, environ
 from os.path import exists, isdir
@@ -14,27 +14,12 @@ from shutil import rmtree
 from json import dumps
 
 from qiita_client import QiitaClient, ArtifactInfo
+from qiita_client.testing import PluginTestCase
 
 from qtp_mass_spec.validate import validate
 
-CLIENT_ID = '19ndkO3oMKsoChjVVWluF7QkxHRfYhTKSFbAVt8IhK7gZgDaO4'
-CLIENT_SECRET = ('J7FfQ7CQdOxuKhQAf1eoGgBAE81Ns8Gu3EKaWFm3IO2JKh'
-                 'AmmCWZuabe0O5Mp28s1')
 
-
-class CreateTests(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        # Set up the Qiita Client
-        server_cert = environ.get('QIITA_SERVER_CERT', None)
-        cls.qclient = QiitaClient("https://localhost:21174", CLIENT_ID,
-                                  CLIENT_SECRET, server_cert=server_cert)
-
-    @classmethod
-    def tearDownClass(cls):
-        # Reset the test database
-        cls.qclient.post("/apitest/reset/")
-
+class CreateTests(PluginTestCase):
     def setUp(self):
         self.out_dir = mkdtemp()
         self._clean_up_files = [self.out_dir]
