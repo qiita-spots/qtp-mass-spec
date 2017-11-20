@@ -25,6 +25,10 @@ from .summary import generate_html_summary
 # is a boolean indicating if the filepath type is required to successfully
 # create an artifact of the given type
 
+artifact_types = [
+     QiitaArtifactType('Spectra Collection', 'Spectra Collection', False, False,
+                       [('plain_text', False)])] #TODO: plain_text is place holder until mzxml, mzml is in the system
+
 # Initialize the plugin
 plugin = QiitaTypePlugin('Mass Spec Types type', '0.0.1',
                          'Qiita Type Plugin: Mass Spec Types',

@@ -17,12 +17,13 @@ from qiita_client import QiitaClient, ArtifactInfo
 from qiita_client.testing import PluginTestCase
 
 from qtp_mass_spec.validate import validate
-
+from qtp_mass_spec import plugin
 
 class CreateTests(PluginTestCase):
     def setUp(self):
         self.out_dir = mkdtemp()
         self._clean_up_files = [self.out_dir]
+        plugin("https://localhost:21174", "register", "ignore")
 
     def tearDown(self):
         for fp in self._clean_up_files:
@@ -54,7 +55,8 @@ class CreateTests(PluginTestCase):
         # Create a new job
         parameters = {'template': template,
                       'files': dumps(files),
-                      'artifact_type': artifact_type}
+                      'artifact_type': artifact_type,
+                      'analysis': None}
         data = {'command': command,
                 'parameters': dumps(parameters),
                 'status': 'running'}
@@ -66,10 +68,10 @@ class CreateTests(PluginTestCase):
     def test_validate(self):
         # TODO: fill the following variables to create the job in the Qiita
         # test server
-        artifact_type = "TODO"
+        artifact_type = "Spectra Collection"
         files = {"TODO": ["TODO"]}
-        command = "TODO"
-        template = "TODO"
+        command = '["Mass Spec Types type", "0.0.1", "Validate"]'
+        template = "1"
         job_id, parameters = self._create_job(
             artifact_type, files, command, template)
         obs_success, obs_ainfo, obs_error = validate(
@@ -78,8 +80,9 @@ class CreateTests(PluginTestCase):
         self.assertTrue(obs_success)
         # TODO: Fill filepaths with the expected filepath list and provide
         # the expected artifact type
-        filepaths = [("TODO", "TODO")]
-        exp_ainfo = [ArtifactInfo(None, 'TODO: artifact type', filepaths)]
+        #filepaths = [("TODO", "TODO")]
+        filepaths = []
+        exp_ainfo = [ArtifactInfo(None, 'Spectra Collection', filepaths)]
         self.assertEqual(obs_ainfo, exp_ainfo)
         self.assertEqual(obs_error, "")
 
