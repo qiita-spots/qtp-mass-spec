@@ -46,6 +46,7 @@ def generate_html_summary(qclient, job_id, parameters, out_dir):
     # TODO: Generate the HTML summary and store it in html_summary_fp
     qclient.update_job_step(job_id, "Step 2: Generating HTML summary")
     html_summary_fp = join(out_dir, "summary.html")
+    open(html_summary_fp, "w").write("MING")
 
     # Step 3: add the new file to the artifact using REST api
     qclient.update_job_step(job_id, "Step 3: Transferring summary to Qiita")

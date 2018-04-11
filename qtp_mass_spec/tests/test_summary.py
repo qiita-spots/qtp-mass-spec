@@ -7,10 +7,10 @@
 # -----------------------------------------------------------------------------
 
 from unittest import main
-from tempfile import mkdtemp
-from os import remove, environ
+from tempfile import mkstemp, mkdtemp
+from os import remove, environ, close
 from os.path import exists, isdir
-from shutil import rmtree
+from shutil import rmtree, copyfile
 from json import dumps
 
 from qiita_client.testing import PluginTestCase
@@ -55,13 +55,36 @@ class SummaryTestsWith(PluginTestCase):
         job_id = res['job']
 
         return job_id, parameters
+    
+    def _create_artifact(self):
+        fd, fp = mkstemp(suffix='.mzXML')
+        close(fd)
+        copyfile('support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML', fp)
+        prep_info_dict = {
+            'SKB7.640196': {'description_prep': 'SKB7'}
+        }
+        data = {'prep_info': dumps(prep_info_dict),
+                # magic #1 = testing study
+                'study': 1,
+                'data_type': 'Metabolomic'}
+        pid = self.qclient.post('/apitest/prep_template/', data=data)['prep']
+
+        # inserting artifacts
+        data = {
+            'filepaths': dumps([(fp, 'per_sample_mzxml')]),
+            'type': "mzxml",
+            'name': "Spectra Collection",
+            'prep': pid}
+        aid = self.qclient.post('/apitest/artifact/', data=data)['artifact']
+        return aid
+
 
     def test_generate_html_summary(self):
         # TODO: fill the following variables to create the job in the Qiita
         # test server
-        artifact = "TODO"
+        artifact = self._create_artifact()
         command = dumps(['qtp-mass-spec type', '0.0.1 GNPS',
-                                  'Generate HTML summary']
+                                  'Generate HTML summary'])
         job_id, parameters = self._create_job(artifact, command)
 
         obs_success, obs_ainfo, obs_error = generate_html_summary(
