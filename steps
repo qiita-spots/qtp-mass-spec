@@ -12,3 +12,5 @@ source activate qiita
 redis-server
 sudo service postgresql start
 qiita pet webserver start
+
+Metabolomic - data type for artifact
