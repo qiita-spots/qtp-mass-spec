@@ -60,7 +60,8 @@ class SummaryTestsWith(PluginTestCase):
         # TODO: fill the following variables to create the job in the Qiita
         # test server
         artifact = "TODO"
-        command = "TODO"
+        command = dumps(['qtp-mass-spec type', '0.0.1 GNPS',
+                                  'Generate HTML summary']
         job_id, parameters = self._create_job(artifact, command)
 
         obs_success, obs_ainfo, obs_error = generate_html_summary(
