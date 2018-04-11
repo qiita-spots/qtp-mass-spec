@@ -28,6 +28,7 @@ class PluginTests(TestCase):
     def setUpClass(cls):
         # Set up the Qiita Client
         server_cert = environ.get('QIITA_SERVER_CERT', None)
+        cls.server_cert = server_cert
         cls.qclient = QiitaClient("https://localhost:21174", CLIENT_ID,
                                   CLIENT_SECRET, server_cert=server_cert)
 
