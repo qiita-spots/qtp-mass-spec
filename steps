@@ -1,0 +1,14 @@
+conda create --name qtp-mass-spec
+source activate qtp-mass-spec
+pip install https://github.com/qiita-spots/qiita_client/archive/master.zip
+pip install . 
+cd scripts
+python ./configure_qtp_mass_spec --env-script "source activate qtp-mass-spec" --server-cert "/home/qiita/qiita/qiita/qiita_core/support_files/server.crt"
+export QIITA_SERVER_CERT="/home/qiita/qiita/qiita/qiita_core/support_files/server.crt"
+
+
+#Starting qiita
+source activate qiita
+redis-server
+sudo service postgresql start
+qiita pet webserver start
