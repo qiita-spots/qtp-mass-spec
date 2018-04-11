@@ -13,4 +13,4 @@ redis-server
 sudo service postgresql start
 qiita pet webserver start
 
-Metabolomic - data type for artifact
+Metabolomic - data type for artifact type in database - not necessary to think about for qtp, but will for qp (https://github.com/qiita-spots/qp-deblur/blob/master/qp_deblur/tests/test_deblur.py#L89-L111)
