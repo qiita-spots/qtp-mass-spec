@@ -31,7 +31,7 @@ class SummaryTestsWith(PluginTestCase):
                 else:
                     remove(fp)
 
-    def _create_job(self, artifact, command):
+    def _create_job(self, files, command):
         """Creates a new job in Qiita so we can update its step during tests
 
         Parameters
@@ -47,7 +47,7 @@ class SummaryTestsWith(PluginTestCase):
             The job id and the parameters dictionary
         """
         # Create a new job
-        parameters = {'input_data': artifact}
+        parameters = {'input_data': dumps(files)}
         data = {'command': command,
                 'parameters': dumps(parameters),
                 'status': 'running'}
@@ -82,10 +82,10 @@ class SummaryTestsWith(PluginTestCase):
     def test_generate_html_summary(self):
         # TODO: fill the following variables to create the job in the Qiita
         # test server
-        artifact = self._create_artifact()
+        #artifact = self._create_artifact()
         command = dumps(['Mass Spec Types type', '0.0.1',
                                   'Generate HTML summary'])
-        job_id, parameters = self._create_job(artifact, command)
+        job_id, parameters = self._create_job(["support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML"], command)
 
         obs_success, obs_ainfo, obs_error = generate_html_summary(
             self.qclient, job_id, parameters, self.out_dir)
