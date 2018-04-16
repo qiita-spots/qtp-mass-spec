@@ -83,7 +83,7 @@ class SummaryTestsWith(PluginTestCase):
         # TODO: fill the following variables to create the job in the Qiita
         # test server
         artifact = self._create_artifact()
-        command = dumps(['qtp-mass-spec type', '0.0.1 GNPS',
+        command = dumps(['Mass Spec Types type', '0.0.1',
                                   'Generate HTML summary'])
         job_id, parameters = self._create_job(artifact, command)
 
