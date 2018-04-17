@@ -47,10 +47,11 @@ class SummaryTestsWith(PluginTestCase):
             The job id and the parameters dictionary
         """
         # Create a new job
-        parameters = {'input_data': dumps(files)}
+        parameters = { 'plain_text': dumps(files)}
         data = {'command': command,
                 'parameters': dumps(parameters),
                 'status': 'running'}
+        print(data)
         res = self.qclient.post('/apitest/processing_job/', data=data)
         job_id = res['job']
 
@@ -85,7 +86,7 @@ class SummaryTestsWith(PluginTestCase):
         #artifact = self._create_artifact()
         command = dumps(['Mass Spec Types type', '0.0.1',
                                   'Generate HTML summary'])
-        job_id, parameters = self._create_job(["support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML"], command)
+        job_id, parameters = self._create_job( "support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML" , command)
 
         obs_success, obs_ainfo, obs_error = generate_html_summary(
             self.qclient, job_id, parameters, self.out_dir)

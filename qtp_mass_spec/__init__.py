@@ -27,7 +27,7 @@ from .summary import generate_html_summary
 
 artifact_types = [
      QiitaArtifactType('mzxml', 'Spectra Collection', False, False,  
-                       [('per_sample_mzxml', True)])]
+                       [('plain_text', True)])]
 
 # Initialize the plugin
 plugin = QiitaTypePlugin('Mass Spec Types type', '0.0.1',
