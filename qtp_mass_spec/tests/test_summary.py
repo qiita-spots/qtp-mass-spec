@@ -47,7 +47,7 @@ class SummaryTestsWith(PluginTestCase):
             The job id and the parameters dictionary
         """
         # Create a new job
-        parameters = { 'plain_text': dumps(files)}
+        parameters = { 'input_data': dumps(files)}
         data = {'command': command,
                 'parameters': dumps(parameters),
                 'status': 'running'}
