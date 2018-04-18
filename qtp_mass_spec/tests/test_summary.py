@@ -31,7 +31,7 @@ class SummaryTestsWith(PluginTestCase):
                 else:
                     remove(fp)
 
-    def _create_job(self, files, command):
+    def _create_job(self, atype, files):
         """Creates a new job in Qiita so we can update its step during tests
 
         Parameters
@@ -46,17 +46,24 @@ class SummaryTestsWith(PluginTestCase):
         str, dict
             The job id and the parameters dictionary
         """
-        # Create a new job
-        parameters = { 'input_data': dumps(files)}
-        data = {'command': command,
-                'parameters': dumps(parameters),
-                'status': 'running'}
-        print(data)
-        res = self.qclient.post('/apitest/processing_job/', data=data)
-        job_id = res['job']
 
+        #data = {'filepaths' : dumps([("support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML", "plain_text" )]), "type" : "mzxml", "name" : "ming_mzxml", "prep" : "1"}
+        aid = self._create_artifact()
+
+        #parameters = {'template': None,
+        #              'input_data': dumps(files),
+        #              'artifact_type': atype,
+        #              'analysis': 1}
+        parameters = {'input_data' : aid}
+        data = {'command': dumps(['Mass Spec Types type', '0.0.1', 'Generate HTML summary']),
+                'parameters': dumps(parameters), 'status': 'running'}
+        import urllib
+        #self.qclient.post('/qiita_db/plugins/%s/%s/commands/%s/activate/' % ("Mass Spec Types type","0.0.1", urllib.parse.quote("Generate HTML summary")))
+        print(self.qclient.get('/qiita_db/plugins/Mass Spec Types type/0.0.1/'))
+        job_id = self.qclient.post(
+            '/apitest/processing_job/', data=data)['job']
         return job_id, parameters
-    
+
     def _create_artifact(self):
         fd, fp = mkstemp(suffix='.mzXML')
         close(fd)
@@ -72,21 +79,18 @@ class SummaryTestsWith(PluginTestCase):
 
         # inserting artifacts
         data = {
-            'filepaths': dumps([(fp, 'per_sample_mzxml')]),
+            'filepaths': dumps([(fp, 'plain_text')]),
             'type': "mzxml",
             'name': "Spectra Collection",
             'prep': pid}
         aid = self.qclient.post('/apitest/artifact/', data=data)['artifact']
         return aid
 
-
     def test_generate_html_summary(self):
         # TODO: fill the following variables to create the job in the Qiita
         # test server
         #artifact = self._create_artifact()
-        command = dumps(['Mass Spec Types type', '0.0.1',
-                                  'Generate HTML summary'])
-        job_id, parameters = self._create_job( "support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML" , command)
+        job_id, parameters = self._create_job("mzxml", {'plain_text': "support_files/112111_ES129_fr111109_jy_ft_ltq.mzXML"} )
 
         obs_success, obs_ainfo, obs_error = generate_html_summary(
             self.qclient, job_id, parameters, self.out_dir)

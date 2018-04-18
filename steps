@@ -14,3 +14,12 @@ sudo service postgresql start
 qiita pet webserver start
 
 Metabolomic - data type for artifact type in database - not necessary to think about for qtp, but will for qp (https://github.com/qiita-spots/qp-deblur/blob/master/qp_deblur/tests/test_deblur.py#L89-L111)
+
+
+#if we have a problem with commands not being availabe (e.g. Generate HTML Summary)
+qiita-env clean_test
+qiita plugins update
+qiita pet webserver start
+
+#Caveats
+For Summary, we must give it artifact id as input_data, for Validate, we can give it file path tuples like I tried before
