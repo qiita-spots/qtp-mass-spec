@@ -42,21 +42,27 @@ def generate_html_summary(qclient, job_id, parameters, out_dir):
     # Get the artifact files
     artifact_files = artifact_info['files']
     print(artifact_files["plain_text"])
+    all_file_statuses = []
     for filename in artifact_files["plain_text"]:
         file_status = ""
         try:
             parsed_dict = xmltodict.parse(open(filename).read())
-            file_status = "Number of Spectra: %s" % ("1") 
+            scans = parsed_dict['mzXML']['msRun']['scan']
+            file_status = "Number of Spectra: %d" % (len(scans)) 
         except:
             file_status = "Invalid XML"
+        all_file_statuses.append(file_status)
 
     # Step 2: generate HTML summary
     # TODO: Generate the HTML summary and store it in html_summary_fp
     qclient.update_job_step(job_id, "Step 2: Generating HTML summary")
     html_summary_fp = join(out_dir, "summary.html")
 
+    print(all_file_statuses)
+
     summary_output = open(html_summary_fp, "w")
-    
+    summary_output.write("\n".join(all_file_statuses))
+    summary_output.close()    
 
     # Step 3: add the new file to the artifact using REST api
     qclient.update_job_step(job_id, "Step 3: Transferring summary to Qiita")
