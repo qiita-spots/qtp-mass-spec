@@ -8,7 +8,7 @@
 
 
 from os.path import join
-
+import xmltodict
 
 def generate_html_summary(qclient, job_id, parameters, out_dir):
     """Generates the HTML summary of an artifact
@@ -36,18 +36,27 @@ def generate_html_summary(qclient, job_id, parameters, out_dir):
     # This is the only parameter provided by Qiita: the artifact id. From here,
     # the developer should be able to retrieve any further information needed
     # to generate the HTML summary
-    #artifact_id = parameters['input_data']
-    #qclient_url = "/qiita_db/artifacts/%s/" % artifact_id
-    #artifact_info = qclient.get(qclient_url)
+    artifact_id = parameters['input_data']
+    qclient_url = "/qiita_db/artifacts/%s/" % artifact_id
+    artifact_info = qclient.get(qclient_url)
     # Get the artifact files
-    #artifact_files = artifact_info['files']
-    print(parameters)
+    artifact_files = artifact_info['files']
+    print(artifact_files["plain_text"])
+    for filename in artifact_files["plain_text"]:
+        file_status = ""
+        try:
+            parsed_dict = xmltodict.parse(open(filename).read())
+            file_status = "Number of Spectra: %s" % ("1") 
+        except:
+            file_status = "Invalid XML"
 
     # Step 2: generate HTML summary
     # TODO: Generate the HTML summary and store it in html_summary_fp
     qclient.update_job_step(job_id, "Step 2: Generating HTML summary")
     html_summary_fp = join(out_dir, "summary.html")
-    open(html_summary_fp, "w").write("MING")
+
+    summary_output = open(html_summary_fp, "w")
+    
 
     # Step 3: add the new file to the artifact using REST api
     qclient.update_job_step(job_id, "Step 3: Transferring summary to Qiita")
