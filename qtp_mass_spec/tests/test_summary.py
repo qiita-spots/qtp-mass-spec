@@ -16,12 +16,13 @@ from json import dumps
 from qiita_client.testing import PluginTestCase
 
 from qtp_mass_spec import generate_html_summary
-
+import time
 
 class SummaryTestsWith(PluginTestCase):
     def setUp(self):
         self.out_dir = mkdtemp()
         self._clean_up_files = [self.out_dir]
+        time.sleep(1)
 
     def tearDown(self):
         for fp in self._clean_up_files:
